@@ -1,7 +1,7 @@
 ﻿class Client {
     constructor(username,  address){
         this._socketAddress = address || 'http://localhost:8080/';
-        this._socket = io.connect(this._socketAddress);
+        this._socket = io.connect('https://pvz.herokuapp.com/');
         /*this._socket = {
             eventPair = {},
             on: (funcName, func) => {
