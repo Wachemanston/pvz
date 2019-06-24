@@ -88,9 +88,9 @@ class System {
         // work function
         this.notifyFrame = this.notifyFrame.bind(this);
 
-        client.on('frameNotify', (type, x, y) => {
+        /*client.on('frameNotify', (type, x, y) => {
             this.addFrame(type, x, y);
-        });
+        });*/
     }
     get initProcess() { return this.init_process; }
     set setInitProcess(pcs) { this.init_process = pcs; }
@@ -167,7 +167,7 @@ class System {
             }
 
             this.addFrame(type, x, y);
-            client.frameNotify(type, x, y);
+            //client.frameNotify(type, x, y);
             this.px = gx;
             this.py = gy;
         }
