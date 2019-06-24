@@ -2,22 +2,6 @@
     constructor(username,  address){
         this._socketAddress = address || 'http://localhost:8080/';
         this._socket = io.connect('https://pvz.herokuapp.com/');
-        /*this._socket = {
-            eventPair = {},
-            on: (funcName, func) => {
-                //this.eventPair[funcName] = func;
-                firebase.database().ref(`test`).on('value', snapshot => {//${this._roomid}/${funcName}
-                    var val = snapshot.val();
-                    func(...val);
-                });
-            },
-            emit: (func, roomId, ...argv) => {
-                //this.eventPair[func](...argv);
-                firebase.database().ref(`test`).set({
-                    ...argv
-                });
-            }
-        }*/
         this._username = '',
         this._memberId = '';
         this._roomId = '';

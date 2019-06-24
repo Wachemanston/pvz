@@ -55,13 +55,15 @@ var zombie_attack_5;
 var livingsun2 = [];
 var suntime0_p;
 var icon_p7;
-var plant_cost_0 = 0;
-var plant_cost_1 = 0;
-var plant_cost_2 = 10;
-var plant_cost_3 = 150;
+
+var plant_cost_0 = 25;
+var plant_cost_1 = 50;
+var plant_cost_2 = 125;
+var plant_cost_3 = 100;
 var plant_cost_4 = 75;
-var plant_cost_5 = 0;
-var sunflower_cost = 0;
+var plant_cost_5 = 25;
+var sunflower_cost = 50;
+
 var natural_sun1;
 var sun_break1;
 var skillText_p7;
@@ -492,14 +494,15 @@ function plants_create() {
     });
 
     client.on('moveMower', (idx, zbi_type) => {
-        console.log(idx, zbi_type);
+        console.log(Mowers[idx], zbi_type);
+        //Mower[idx].body.x = pos;
         switch(zbi_type){
-            case 0: move_mower(Mowers[idx], zombie_0); break;
-            case 1: move_mower(Mowers[idx], zombie_1); break;
-            case 2: move_mower(Mowers[idx], zombie_2); break;
-            case 3: move_mower(Mowers[idx], zombie_3); break;
-            case 4: move_mower(Mowers[idx], zombie_4); break;
-            case 5: move_mower(Mowers[idx], zombie_5); break;
+            case 'zombie_0': move_mower(mowers_i[idx], zombie_0); break;
+            case 'zombie_1': move_mower(mowers_i[idx], zombie_1); break;
+            case 'zombie_2': move_mower(mowers_i[idx], zombie_2); break;
+            case 'zombie_3': move_mower(mowers_i[idx], zombie_3); break;
+            case 'zombie_4': move_mower(mowers_i[idx], zombie_4); break;
+            case 'zombie_5': move_mower(mowers_i[idx], zombie_5); break;
         }
 
     });
@@ -802,9 +805,6 @@ function plants_update() {
         sun_shot.body.velocity.y = 100;
         natural_sun1 = game.time.now + 14000;
     }
-
-
-
 
     //pea_shooter bullet
     plant_01_alive.length = 0;
@@ -1324,8 +1324,6 @@ function place_Plants_1(pointer) {
     if (canplacePlant(i, j) && game.time.now >= plant_01_cooldown && money_p >= plant_cost_0) {
         money_p -= plant_cost_0;
 
-        client.setMoney(client.teamName, money_p);
-
         var plant = plant_01.getFirstExists(false);
         if (plant) {
             map[i][j] = 1;
@@ -1334,6 +1332,8 @@ function place_Plants_1(pointer) {
                 x: (j * 64) + 15,
                 y: (i * 64) + 15
             }, 1);
+
+            client.setMoney(client.teamName, money_p);
 
             plant.reset((j * 64) + 15, (i * 64) + 15);
             
@@ -1351,16 +1351,18 @@ function place_wallnut(pointer) {
     if (canplacePlant(i, j) && game.time.now >= wallnut_cooldown && money_p >= plant_cost_1) {
         money_p -= plant_cost_1;
 
-        client.setMoney(client.teamName, money_p);
-
         var Wallnut = wallnut.getFirstExists(false);
+console.log(Wallnut);
         if (Wallnut) {
+console.log(Wallnut);
             map[i][j] = 1;
 
             client.addPlant({
                 x: (j * 64) + 15,
                 y: (i * 64) + 15
             }, 4);
+
+            client.setMoney(client.teamName, money_p);
             
             Wallnut.reset((j * 64) + 15, (i * 64) + 15);
             Wallnut.health = 20;
@@ -1377,8 +1379,6 @@ function place_Plants_2(pointer) {
     if (canplacePlant(i, j) && game.time.now >= plant_02_cooldown && money_p >= plant_cost_2) {
         money_p -= plant_cost_2;
 
-        client.setMoney(client.teamName, money_p);
-
         var plant2 = plant_02.getFirstExists(false);
         if (plant2) {
             map[i][j] = 1;
@@ -1387,6 +1387,8 @@ function place_Plants_2(pointer) {
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
             }, 2);
+
+            client.setMoney(client.teamName, money_p);
             
             plant2.reset((j * 64) + 15, (i * 64) + 15);
             //map[i][j] == 1;
@@ -1403,7 +1405,6 @@ function place_Plants_3(pointer) {
     var j = Math.floor(pointer.x / 64);
     if (canplacePlant(i, j) && game.time.now >= plant_03_cooldown && money_p >=plant_cost_4) {
         money_p -= plant_cost_4;
-        client.setMoney(client.teamName, money_p);
 
         var Hypno_shroom = plant_03.getFirstExists(false);
         if (Hypno_shroom) {
@@ -1413,6 +1414,7 @@ function place_Plants_3(pointer) {
                 x: (j * 64) + 15,
                 y: (i * 64) + 15
             }, 3);
+        client.setMoney(client.teamName, money_p);
             
             Hypno_shroom.reset((j * 64) + 15, (i * 64) + 15);
             Hypno_shroom.animations.add('wave', [0, 1, 2], 3, true);
@@ -1429,7 +1431,6 @@ function place_potato_mine(pointer) {
     if (canplacePlant(i, j) && game.time.now >= potato_mine_cooldown && money_p >= plant_cost_5) {
         var Potato_mine = potato_mine.getFirstExists(false);
         money_p -= plant_cost_5;
-        client.setMoney(client.teamName, money_p);
 
         if (Potato_mine) {
             map[i][j] = 1;
@@ -1438,6 +1439,7 @@ function place_potato_mine(pointer) {
                 x: (j * 64) + 15,
                 y: (i * 64) + 15
             }, 5);
+        client.setMoney(client.teamName, money_p);
             
             Potato_mine.reset((j * 64) + 15, (i * 64) + 15);
             Potato_mine.animations.add('came above ground', [0], 1, false);
@@ -1459,7 +1461,6 @@ function place_chomper(pointer) {
     var j = Math.floor(pointer.x / 64);
     if (canplacePlant(i, j) && game.time.now >= chomper_cooldown && money_p >= plant_cost_3) {
         money_p -= plant_cost_3;
-        client.setMoney(client.teamName, money_p);
 
         var Chomper = chomper.getFirstExists(false);
         if (Chomper) {
@@ -1474,6 +1475,7 @@ function place_chomper(pointer) {
                 x: (j * 64),
                 y: (i * 64)
             }, 6);
+        client.setMoney(client.teamName, money_p);
             
             Chomper.animations.add('rest', [0, 1, 2, 3, 4], 5, true);
             Chomper.animations.play('rest', 5, true);
@@ -1491,15 +1493,14 @@ function placesun_1(pointer) {
         money_p -= sunflower_cost;
         map[i][j] = 1;
 
-        client.setMoney(client.teamName, money_p);
-
         var sun = sun_1.getFirstExists(false);
         if (sun) {
-
             client.addPlant({
                 x: (j * 64),
                 y: (i * 64)
             }, 0);
+
+        client.setMoney(client.teamName, money_p);
 
             sun.reset((j * 64), (i * 64));
             sun.health = 5;
@@ -1553,11 +1554,12 @@ function snow_bullet_destroy(bullet, enemy) {
 }
 
 function move_mower(mower, zombie) {
-    client.moveMower(mower._idx, zombie.key);
 
     mower.body.velocity.x = 500;
     zombie.kill();
     z_death.play();
+
+    client.moveMower(mower._idx, zombie.key);
 }
 
 function chomper_KILL(chomper, zombie) {

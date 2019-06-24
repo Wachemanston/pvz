@@ -107,11 +107,13 @@ var icon_7;
 var zombie_cost_0 = 50;
 var zombie_cost_1 = 50;
 var zombie_cost_2 = 50;
-var zombie_cost_3 =50;
+
+var zombie_cost_3 = 50;
 var zombie_cost_4 = 50;
 var zombie_cost_5 = 50;
 
-var sunflower_cost = 0;
+var sunflower_cost = 50;
+
 var natural_sun;
 var sun_break;
 var skillText_7;
@@ -273,7 +275,7 @@ function create() {
 
     /////
     create_Coffin();
-    game.input.addMoveCallback(p, this);///for debuging
+    //game.input.addMoveCallback(p, this);///for debuging
     //money declaration
     //game.global.money=0;
 
@@ -325,11 +327,25 @@ function create() {
         }
     }
 
+    client.on('gaming_pause', () => {
+        game.paused = !game.paused;
+        if (game.paused === false) {
+            stateText.visible = false;
+        }else {
+            stateText.text = " PAUSE \n Press P To Resume";
+            stateText.visible = true;
+        }
+    });
+
+    window.onblur = function(){
+        game.paused = false;
+    }
     //game pause function
     window.onkeydown = function (event) {
 
         if (event.keyCode == 80) {
             game.paused = !game.paused;
+            client.gaming_pause();
         }
         if (game.paused === false) {
 
@@ -346,23 +362,106 @@ function create() {
     system.create(game);
 
     client.on('setZombie', (type, children) => {
-
-        var updatePos = (child, i) => {
-            child.x = children[i];
-        }
-        console.log(type, children)
+        
+        //console.log(type, children)
         switch (type) {
             case 0:
-                //for (let i = 0; i < 50; i++) { zombie_0.set(zombie_0.children[0]) = children; }
-                zombie_0.forEachAlive((child, idx) => {
-                    updatePos(child, idx);
+                children.forEach(childObj => {
+                    if (!zombie_0.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_0.addChildAt(zombie_0.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_0.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
                 });
                 break;
-            /*case 1: placeZombie_1(pointer); break;
-            case 2: placeZombie_2(pointer); break;
-            case 3: placeZombie_3(pointer); break;
-            case 4: placeZombie_4(pointer); break;
-            case 5: placeZombie_5(pointer); break;*/
+            case 1:
+                children.forEach(childObj => {
+                    if (!zombie_1.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_1.addChildAt(zombie_1.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_1.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
+                });
+                break;
+            case 2:
+                children.forEach(childObj => {
+                    if (!zombie_2.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_2.addChildAt(zombie_2.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_2.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
+                });
+                break;
+            case 3:
+                children.forEach(childObj => {
+                    if (!zombie_3.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_3.addChildAt(zombie_3.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_3.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
+                });
+                break;
+            case 4:
+                children.forEach(childObj => {
+                    if (!zombie_4.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_4.addChildAt(zombie_4.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_4.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
+                });
+                break;
+            case 5:
+                children.forEach(childObj => {
+                    if (!zombie_5.getChildAt(childObj.idx).alive) {
+                        var zombie = zombie_5.addChildAt(zombie_5.getFirstExists(false), childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy, 5);
+                        zombie.animations.add('walk');
+                        zombie.animations.play('walk', 5, true);
+                        zombie.scale.x = -1;
+                        zombie.body.velocity.x = -20;
+                        console.log('append child at' + childObj.idx);
+                    } else {
+                        var zombie = zombie_5.getChildAt(childObj.idx);
+                        zombie.reset(childObj.posx, childObj.posy);
+                    }
+                });
+                break;
+            default: break;
         }
     });
 
@@ -371,12 +470,12 @@ function create() {
         // do something, ex:
         console.log(type, pointer, children)
         switch (type) {
-            case 0: placeZombie_0(pointer); break;
-            case 1: placeZombie_1(pointer); break;
+            /*case 0: placeZombie_0(pointer); break;*/
+            /*case 1: placeZombie_1(pointer); break;
             case 2: placeZombie_2(pointer); break;
             case 3: placeZombie_3(pointer); break;
             case 4: placeZombie_4(pointer); break;
-            case 5: placeZombie_5(pointer); break;
+            case 5: placeZombie_5(pointer); break;*/
             case 6: placesun_0(pointer); break;
         }
     });
@@ -477,7 +576,30 @@ function update() {
     });
 
     if (client.teamName === 'zombies') {
-        client.setZombie(0, zombie_0.children.map(child => { return child.position.x }));
+        client.setZombie(0, zombie_0.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
+        client.setZombie(1, zombie_1.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
+        client.setZombie(2, zombie_2.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
+        client.setZombie(3, zombie_3.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
+        client.setZombie(4, zombie_4.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
+        client.setZombie(5, zombie_5.children.map((child, idx) => {
+            if (child.alive) return { idx: idx, posx: child.position.x, posy: child.position.y };
+            else return false;
+        }).filter(val => { return val !== false}));
     }
 
     /*if (sprite.x >= 300)
@@ -712,13 +834,6 @@ function update() {
     //plants.js
     plants_update();
 }
-
-function p(pointer) {/// for debuging
-
-    // console.log(pointer.);
-    //console.log(pointer.event);
-
-}
 ///draw chessboard function
 function drawGrid(graphics) {
     graphics.lineStyle(1, 0xffffff, 0.8);
@@ -752,10 +867,10 @@ function placeZombie_0(pointer) {
         if (zombie) {
             console.log('add');
             console.log(zombie_0.children)
-            client.addZombie({
+            /*client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 0);//, zombie_0.children.map(child => { return child.position.x}));*/
+            }, 0);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 48);
             zombie.health = 5;
@@ -786,10 +901,10 @@ function placeZombie_1(pointer) {
         var zombie = zombie_1.getFirstExists(false);
         if (zombie) {
 
-            client.addZombie({
+            /*client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 1);
+            }, 1);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 48);
             zombie.health = 12;
@@ -819,10 +934,10 @@ function placeZombie_2(pointer) {
         var zombie = zombie_2.getFirstExists(false);
         if (zombie) {
 
-            client.addZombie({
+            /*client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 2);
+            }, 2);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 56);
             zombie.health = 10;
@@ -852,10 +967,10 @@ function placeZombie_3(pointer) {
         var zombie = zombie_3.getFirstExists(false);
         if (zombie) {
 
-            client.addZombie({
+           /* client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 3);
+            }, 3);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 56);
             zombie.health = 10;
@@ -885,10 +1000,10 @@ function placeZombie_4(pointer) {
         var zombie = zombie_4.getFirstExists(false);
         if (zombie) {
 
-            client.addZombie({
+            /*client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 4);
+            }, 4);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 48);
             zombie.health = 10;
@@ -918,10 +1033,10 @@ function placeZombie_5(pointer) {
         var zombie = zombie_5.getFirstExists(false);
         if (zombie) {
 
-            client.addZombie({
+            /*client.addZombie({
                 x: (j * 64) + 32,
                 y: (i * 64) + 48
-            }, 5);
+            }, 5);*/
 
             zombie.reset((j * 64) + 32, (i * 64) + 64);
             zombie.health = 10;
