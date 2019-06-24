@@ -1053,7 +1053,7 @@ function placesun_0(pointer) {
 
     var i = Math.floor(pointer.y / 64);
     var j = Math.floor(pointer.x / 64);
-    if (canplaceSun(i, j) && money_p >= sunflower_cost && game.time.now > sun_break) {
+    if (canplaceSun(i, j) && money >= sunflower_cost && game.time.now > sun_break) {
         //skillText_1.text = 'Wait...';
         money -= sunflower_cost;
         map[i][j] = 1;
